@@ -12,6 +12,10 @@ public class Game {
     // Board representation (6x7 char array)
     private char[][] board;
 
+    // Details
+    public boolean exception = false; // Game forfeited by exception?
+    public boolean illegalMove = false; // Game forfeited by illegal move?
+
     public Game(Player player1, Player player2){
         // player1 goes first.
         // We represent player1 as '1' and player2 as '2' in the board (' ' for none occupied)
@@ -30,39 +34,48 @@ public class Game {
      * @return 1 if player1 won. 0 if draw. -1 if player1 lost.
      */
     public int runTillCompletion(){
+        // player1 ('1') goes first, then player2 ('2')
         while(anyMovesLeft()){
-            // player1 ('1') goes first
-            int choice1 = this.player1.returnMove(board, '1', '2');
-
-            if(!canMakeMove(choice1)){
-                //System.out.println("Player 1 attempted to make an illegal move.");
+            // Get player1's move
+            int choice1;
+            try {
+                choice1 = this.player1.returnMove(board, '1', '2');
+            } catch(Exception e){
+                exception = true;
                 return -1;
             }
 
-            playMove(choice1, '1');
-            //System.out.println("PLAYER 1-----------------");
-            //print();
+            // Illegal move attempt
+            if(!canMakeMove(choice1)){
+                illegalMove = true;
+                return -1;
+            }
 
+            // Check if player1 won
+            playMove(choice1, '1');
             if(checkWin() == '1'){
-                //System.out.println("Player 1 won.");
                 return 1;
             }
 
 
             // Then player2 ('2') goes
-            int choice2 = this.player2.returnMove(board, '2', '1');
+            int choice2;
+            try {
+                choice2 = this.player2.returnMove(board, '2', '1');
+            } catch(Exception e){
+                exception = true;
+                return 1;
+            }
             
+            // Illegal move attempt
             if(!canMakeMove(choice2)){
-                //System.out.println("Player 2 attempted to make an illegal move.");
+                illegalMove = true;
                 return 1;
             }
 
+            // Check if player2 won
             playMove(choice2, '2');
-            //System.out.println("PLAYER 2-----------------");
-            //print();
-
             if(checkWin() == '2'){
-                //System.out.println("Player 2 won.");
                 return -1;
             }
         }
