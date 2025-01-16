@@ -5,6 +5,12 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+/**
+ * A pseudo-button with better styling but no click functionality
+ * Clicks must be implemented in parent JPanel
+ * @author Gene Yang
+ * @version 1/16/2025
+ */
 public class CustomButton extends JComponent {
     private String text;
     private int x;

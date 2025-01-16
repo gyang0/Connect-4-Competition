@@ -1,6 +1,7 @@
 package game_utils;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class Tournament {
     // Object representation of the i-th player
@@ -75,6 +76,15 @@ public class Tournament {
                 }
             }
         }
+
+        // Sort scoreboard
+        Arrays.sort(scoreboard, (obj1, obj2) -> {
+            if(obj1.wins != obj2.wins) return obj2.wins - obj1.wins; // Primary: # of wins
+            if(obj1.losses != obj2.losses) return obj1.losses - obj2.losses; // Minimize # of losses
+            
+            // Number of illegal moves / exceptions are tiebreaks
+            return (obj1.illegalMoves + obj1.numExceptions) - (obj2.illegalMoves + obj2.numExceptions);
+        });
     }
 
     /**

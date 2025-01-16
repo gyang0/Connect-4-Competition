@@ -95,6 +95,8 @@ public class Game {
      * @return - True if move is legal
      */
     private boolean canMakeMove(int col){
+        if(col < 0 || col >= COLUMNS) return false;
+
         return (this.board[0][col] == '-');
     }
 
@@ -170,7 +172,7 @@ public class Game {
         this.board[this.ROWS - 1][col] = ch;
     }
 
-    private void print(){
+    /*private void print(){
         for(int r = 0; r < this.ROWS; r++){
             for(int c = 0; c < this.COLUMNS; c++){
                 System.out.print(this.board[r][c] + " ");
@@ -178,5 +180,5 @@ public class Game {
             System.out.println();
         }
         System.out.println();
-    }
+    }*/
 }

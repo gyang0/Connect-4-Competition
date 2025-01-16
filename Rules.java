@@ -1,7 +1,5 @@
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -9,7 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import swing_stuff.CustomButton;
@@ -20,24 +17,31 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * Home screen with options for the tournament
+ * Credits screen with list of resources
  * @author Gene Yang
  * @version Jan 16, 2025
  */
-public class Home extends JPanel implements MouseListener {
+public class Rules extends JPanel implements MouseListener {
     public BufferedImage backgroundImg;
     public BufferedImage connect4_title;
 
     private int WIDTH;
     private int HEIGHT;
 
-    private Font pixelFont;
+    private Font pixelFont_big;
+    private Font pixelFont_small;
 
     // Buttons on this page
     private ArrayList<CustomButton> buttons;
 
-
-    public Home(CardLayout cards, JPanel homeContainer, int WIDTH, int HEIGHT){
+    /**
+     * Constructor
+     * @param cards - Parent CardLayout
+     * @param homeContainer - Parent JPanel
+     * @param WIDTH - Parent width
+     * @param HEIGHT - Parent height
+     */
+    public Rules(CardLayout cards, JPanel homeContainer, int WIDTH, int HEIGHT){
         // Add the mouse listener
         addMouseListener(this);
 
@@ -46,36 +50,42 @@ public class Home extends JPanel implements MouseListener {
 
         // Our buttons for this page
         this.buttons = new ArrayList<CustomButton>();
-        CustomButton showCredits = new swing_stuff.CustomButton("Credits", WIDTH/2, 550, 150, 80, new CustomEvent(){
+        CustomButton proceedBtn = new swing_stuff.CustomButton("Proceed", WIDTH/2, 650, 150, 80, new CustomEvent(){
             @Override
             public void run(){
-                cards.show(homeContainer, "Credits");
-            }
-        });
-        CustomButton startBtn = new swing_stuff.CustomButton("Start", WIDTH/2, 650, 150, 80, new CustomEvent(){
-            @Override
-            public void run(){
-                cards.show(homeContainer, "Rules");
+                // Simlate tournament
+                game_utils.Tournament tournament = new game_utils.Tournament();
+                tournament.runTournament();
+                tournament.recordResults("results.txt");
+
+                // Change page
+                cards.show(homeContainer, "Results");
             }
         });
 
-        buttons.add(showCredits);
-        buttons.add(startBtn);
+        buttons.add(proceedBtn);
 
         // Get images
         try {
             backgroundImg = ImageIO.read(new File("assets/wood_background.png"));
             connect4_title = ImageIO.read(new File("assets/connect4_text.png"));
 
-            pixelFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(30f);
+            pixelFont_small = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(20f);
+            pixelFont_big = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(30f);
+            
             GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            g.registerFont(pixelFont);
+            
+            g.registerFont(pixelFont_big);
+            g.registerFont(pixelFont_small);
 
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
+    /**
+     * Paint all the stuff on the screen
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -84,12 +94,20 @@ public class Home extends JPanel implements MouseListener {
         g.drawImage(connect4_title, WIDTH/2 - connect4_title.getWidth()/2, 50, null);
 
         g.setColor(Color.BLACK);
-        g.setFont(pixelFont);
-        centerText(g, "Made by the OCS20 TAs", WIDTH/2, 250);
-        centerText(g, "A round-robin style tournament", WIDTH/2, 350);
-        centerText(g, "of Connect-4", WIDTH/2, 400);
+        g.setFont(pixelFont_small);
+
+        centerText(g, "All entries in the student_submissions folder will be used.", WIDTH/2, 250);
+        centerText(g, "Each entry will compete against the others twice (round-robin).", WIDTH/2, 290);
+        centerText(g, "Each entry will play 1st once, and play 2nd the other time.", WIDTH/2, 330);
+
+        centerText(g, "Any exceptions or illegal moves will forfeit the current game.", WIDTH/2, 400);
+        centerText(g, "Rankings will primarily depend on the number of wins.", WIDTH/2, 440);
+        centerText(g, "Losses, draws, # of exceptions, etc. may be used as tiebreaks.", WIDTH/2, 480);
+        
+        centerText(g, "Click 'proceed' to start the tournament.", WIDTH/2, 550);
 
         // Display buttons
+        g.setFont(pixelFont_big);
         for(int i = 0; i < buttons.size(); i++){
             buttons.get(i).paint(g);
         }

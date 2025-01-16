@@ -27,11 +27,13 @@ public class Main {
         // JPanel screens
         Home home = new Home(cards, homeContainer, WIDTH, HEIGHT);
         Credits credits = new Credits(cards, homeContainer, WIDTH, HEIGHT);
-        Results results = new Results(cards, homeContainer);
+        Rules rules = new Rules(cards, homeContainer, WIDTH, HEIGHT);
+        Results results = new Results(cards, homeContainer, WIDTH, HEIGHT);
 
         // Add to main JPanel (homeContainer)
         homeContainer.add(home, "Home");
         homeContainer.add(credits, "Credits");
+        homeContainer.add(rules, "Rules");
         homeContainer.add(results, "Results");
 
         window.add(homeContainer, BorderLayout.CENTER);

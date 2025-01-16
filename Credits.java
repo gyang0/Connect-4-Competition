@@ -1,7 +1,5 @@
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -9,7 +7,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import swing_stuff.CustomButton;
@@ -31,12 +28,19 @@ public class Credits extends JPanel implements MouseListener {
     private int WIDTH;
     private int HEIGHT;
 
-    private Font pixelFont;
+    private Font pixelFont_big;
+    private Font pixelFont_small;
 
     // Buttons on this page
     private ArrayList<CustomButton> buttons;
 
-
+    /**
+     * Constructor
+     * @param cards - Parent CardLayout
+     * @param homeContainer - Parent JPanel
+     * @param WIDTH - Parent width
+     * @param HEIGHT - Parent height
+     */
     public Credits(CardLayout cards, JPanel homeContainer, int WIDTH, int HEIGHT){
         // Add the mouse listener
         addMouseListener(this);
@@ -60,15 +64,22 @@ public class Credits extends JPanel implements MouseListener {
             backgroundImg = ImageIO.read(new File("assets/wood_background.png"));
             connect4_title = ImageIO.read(new File("assets/connect4_text.png"));
 
-            pixelFont = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(30f);
+            pixelFont_small = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(20f);
+            pixelFont_big = Font.createFont(Font.TRUETYPE_FONT, new File("assets/toxigenesis.otf")).deriveFont(30f);
+            
             GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            g.registerFont(pixelFont);
+            
+            g.registerFont(pixelFont_big);
+            g.registerFont(pixelFont_small);
 
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
+    /**
+     * Paint all the stuff on the screen
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -77,15 +88,20 @@ public class Credits extends JPanel implements MouseListener {
         g.drawImage(connect4_title, WIDTH/2 - connect4_title.getWidth()/2, 50, null);
 
         g.setColor(Color.BLACK);
-        g.setFont(pixelFont);
+        g.setFont(pixelFont_small);
         centerText(g, "Oct. 2024 - Jan. 2025", WIDTH/2, 250);
-        centerText(g, "Gene Yang", WIDTH/2, 300);
-        centerText(g, "Shiv Sitaram", WIDTH/2, 350);
-        centerText(g, "Maxwell Palance", WIDTH/2, 400);
-        centerText(g, "Aanya Gupta", WIDTH/2, 450);
-        centerText(g, "Lots & lots of coffee + Stack Overflow", WIDTH/2, 550);
+        centerText(g, "Gene Yang", WIDTH/2, 280);
+        centerText(g, "Shiv Sitaram", WIDTH/2, 310);
+        centerText(g, "Maxwell Palance", WIDTH/2, 340);
+        centerText(g, "Aanya Gupta", WIDTH/2, 370);
+
+        centerText(g, "Toxigenesis font from www.1001fonts.com", WIDTH/2, 430);
+        centerText(g, "Wood background from www.craiyon.com", WIDTH/2, 460);
+
+        centerText(g, "Lots & lots of coffee + Stack Overflow", WIDTH/2, 520);
 
         // Display buttons
+        g.setFont(pixelFont_big);
         for(int i = 0; i < buttons.size(); i++){
             buttons.get(i).paint(g);
         }
