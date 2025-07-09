@@ -31,8 +31,12 @@ public class CustomButton extends JComponent {
     public void paint(Graphics g) {
         super.paintComponent(g);
 
+        g.setColor(new Color(50, 50, 50));
+        g.fillRoundRect(this.x - this.w/2 - 4, this.y - this.h/2 - 4, this.w + 8, this.h + 8, 5, 5);
+        
         g.setColor(new Color(135, 74, 4));
         g.fillRoundRect(this.x - this.w/2, this.y - this.h/2, this.w, this.h, 5, 5);
+
 
         g.setColor(Color.BLACK);
         centerText(g, this.text, this.x, this.y);

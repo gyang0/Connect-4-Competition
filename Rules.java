@@ -53,11 +53,6 @@ public class Rules extends JPanel implements MouseListener {
         CustomButton proceedBtn = new swing_stuff.CustomButton("Proceed", WIDTH/2, 650, 150, 80, new CustomEvent(){
             @Override
             public void run(){
-                // Simlate tournament
-                game_utils.Tournament tournament = new game_utils.Tournament();
-                tournament.runTournament();
-                tournament.recordResults("results.txt");
-
                 // Change page
                 cards.show(homeContainer, "Results");
             }
@@ -100,7 +95,7 @@ public class Rules extends JPanel implements MouseListener {
         centerText(g, "Each entry will compete against the others twice (round-robin).", WIDTH/2, 290);
         centerText(g, "Each entry will play 1st once, and play 2nd the other time.", WIDTH/2, 330);
 
-        centerText(g, "Any exceptions or illegal moves will forfeit the current game.", WIDTH/2, 400);
+        centerText(g, "Exceptions, illegal moves, or >3s per move is a forfeit.", WIDTH/2, 400);
         centerText(g, "Rankings will primarily depend on the number of wins.", WIDTH/2, 440);
         centerText(g, "Losses, draws, # of exceptions, etc. may be used as tiebreaks.", WIDTH/2, 480);
         
