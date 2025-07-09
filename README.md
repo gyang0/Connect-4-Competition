@@ -19,4 +19,8 @@
 - `Rules.java` - Swing for Rules screen
 - `Results.java` - Swing for Results screen + run tournament
 
+<br>
+
 *(Workable version 7/9/2025)*
+
+*Steps for preparing student code is in "Connect-4 Tournament Guide.pdf"*
