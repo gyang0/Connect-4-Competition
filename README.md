@@ -5,7 +5,6 @@
 - **game_utils**
     - `Game.java` - general methods relating to the game&mdash;determining wins, playing out two different Player instances, checking illegal moves, etc.
     - `Player.java` - class to be extended. Has a method that determines what move to play in a certain board configuration.
-    - `Tournament.java` - pair entries in a round-robin tournament and rank them
 
 - **student_submissions**: folder to put all student code
     - (All submission files extend Player.java, with their own method to decide what move to play given a board config)
@@ -18,10 +17,6 @@
 - `Home.java` - Swing for Home screen
 - `Credits.java` - Swing for Credits screen
 - `Rules.java` - Swing for Rules screen
-- `Results.java` - Swing for Results screen
+- `Results.java` - Swing for Results screen + run tournament
 
-## In progress
-- GUI
-- Rework Student starter code & guide
-- Testcases to run each entry through
-- Slander
+*(Workable version 7/9/2025)*
